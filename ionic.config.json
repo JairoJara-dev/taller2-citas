@@ -1,0 +1,7 @@
+{
+  "name": "taller2-citas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
