@@ -15,7 +15,6 @@ import { QuoteCardComponent } from '../../components/quote-card/quote-card.compo
 export class HomePage implements OnInit {
   citaAleatoria: Cita | null = null;
   puedeEliminar: boolean = false;
-  cargando: boolean = true;
 
   constructor(
     private quotesService: QuotesService,
@@ -23,15 +22,13 @@ export class HomePage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    try {
-      await this.quotesService.inicializar();
-      this.puedeEliminar = await this.settingsService.getBorrarEnInicio();
-      this.citaAleatoria = await this.quotesService.getCitaAleatoria();
-    } catch (e) {
-      console.error('Error al inicializar:', e);
-    } finally {
-      this.cargando = false;
-    }
+    await this.quotesService.inicializar();
+    await this.cargarDatos();
+  }
+
+  async cargarDatos() {
+    this.puedeEliminar = await this.settingsService.getBorrarEnInicio();
+    this.citaAleatoria = await this.quotesService.getCitaAleatoria();
   }
 
   async onEliminarCita(id: number) {

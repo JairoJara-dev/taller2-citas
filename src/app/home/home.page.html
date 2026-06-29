@@ -1,20 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Cita del día</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/gestion">Gestión</ion-button>
+      <ion-button routerLink="/configuracion">Config</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngIf="cargando" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Cargando...</p>
   </div>
+
+  <div *ngIf="!cargando">
+    <div *ngIf="citaAleatoria; else sinCitas">
+      <app-quote-card
+        [cita]="citaAleatoria"
+        [mostrarEliminar]="puedeEliminar"
+        (eliminar)="onEliminarCita($event)">
+      </app-quote-card>
+      <ion-button expand="block" (click)="nuevaCita()">
+        Nueva cita aleatoria
+      </ion-button>
+    </div>
+
+    <ng-template #sinCitas>
+      <ion-text color="medium">
+        <p class="ion-text-center">No hay citas aún. ¡Agrega algunas en Gestión!</p>
+      </ion-text>
+    </ng-template>
+  </div>
+
 </ion-content>
